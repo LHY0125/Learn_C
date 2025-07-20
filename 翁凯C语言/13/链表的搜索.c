@@ -46,6 +46,16 @@ void add(List* pList, int value)
     }
 }
 
+void print(List* pList)
+{
+    Node *p;
+    for (p=pList->head; p; p=p->next)
+    {
+        printf("%d\t", p->value);
+    }
+    printf("\n");
+}
+
 int main()
 {
     // 设置控制台编码为UTF-8
@@ -69,6 +79,7 @@ int main()
             
         }
     } while (number!=-1);
+    print(&list);
 
     return 0;
 }

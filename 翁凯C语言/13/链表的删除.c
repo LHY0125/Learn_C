@@ -9,31 +9,38 @@
 #include <direct.h>
 #endif
 
-// !链表
-/*
-    1.
-*/
+/**
+ * 链表操作示例程序
+ *
+ * 本程序演示了单向链表的基本操作：
+ * 1. 创建链表并添加节点
+ * 2. 遍历并打印链表
+ * 3. 在链表中查找特定值
+ * 4. 从链表中删除特定值的节点
+ */
 
-typedef struct _node{
+typedef struct _node
+{
     int value;
     struct _node *next;
 } Node;
 
-typedef struct _list{
+typedef struct _list
+{
     Node *head;
     Node *tail;
 } List;
 
-void add(List* pList, int value)
+void add(List *pList, int value)
 {
-    Node *p=(Node*)malloc(sizeof(Node));
+    Node *p = (Node *)malloc(sizeof(Node));
     p->value = value;
     p->next = NULL;
     // 将节点插入链表
     Node *last = pList->head;
-    if (last!=NULL)
+    if (last != NULL)
     {
-        while (last->next!=NULL)
+        while (last->next != NULL)
         {
             last = last->next;
         }
@@ -46,10 +53,10 @@ void add(List* pList, int value)
     }
 }
 
-void print(List* pList)
+void print(List *pList)
 {
     Node *p;
-    for (p=pList->head; p; p=p->next)
+    for (p = pList->head; p; p = p->next)
     {
         printf("%d\t", p->value);
     }
@@ -69,24 +76,24 @@ int main()
     list.head = NULL;
     list.tail = NULL;
     int number;
-    do {
+    do
+    {
         printf("请输入一个整数：");
         scanf("%d", &number);
-        if (number!=-1)
+        if (number != -1)
         {
-            
+
             add(&list, number);
-            
         }
-    } while (number!=-1);
+    } while (number != -1);
     print(&list);
 
     scanf("%d", &number);
     Node *p;
     int isFound = 0;
-    for (p=list.head; p; p=p->next)
+    for (p = list.head; p; p = p->next)
     {
-        if (p->value==number)
+        if (p->value == number)
         {
             printf("找到！\n");
             isFound = 1;
@@ -97,6 +104,26 @@ int main()
     {
         printf("未找到！\n");
     }
-    
+
+    Node *q;
+    for (q = NULL, p = list.head; p; q = p, p = p->next)
+    {
+        if (p->value == number)
+        {
+            if (q == NULL)
+            {
+                list.head = p->next;
+            }
+            else
+            {
+                q->next = p->next;
+            }
+            free(p);
+            printf("删除成功！\n");
+
+            break;
+        }
+    }
+
     return 0;
 }

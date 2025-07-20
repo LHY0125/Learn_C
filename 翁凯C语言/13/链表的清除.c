@@ -97,6 +97,32 @@ int main()
     {
         printf("未找到！\n");
     }
-    
+
+    Node *q;
+    for (q = NULL, p = list.head; p; q=p, p = p->next)
+    {
+        if (p->value == number)
+        {
+            if (q==NULL)
+            {
+                list.head = p->next;
+            }
+            else
+            {
+                q->next = p->next;
+            }
+            free(p);
+            printf("删除成功！\n");
+            
+            break;
+        }
+    }
+
+    for (p=list.head; p; p=p)
+    {
+        q=p->next;
+        free(p);
+    }
+
     return 0;
 }

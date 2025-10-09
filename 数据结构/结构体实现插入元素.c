@@ -74,17 +74,17 @@ int getInput(const char *prompt, int min, int max)
 {
     int value;
     char buffer[100];
-    
+
     while (1)
     {
         printf("%s", prompt);
-        
+
         if (fgets(buffer, sizeof(buffer), stdin) != NULL)
         {
             // 尝试解析整数
             char *endptr;
             value = strtol(buffer, &endptr, 10);
-            
+
             // 检查是否为有效整数
             if (endptr != buffer && (*endptr == '\n' || *endptr == '\0'))
             {
@@ -165,15 +165,15 @@ int main(void)
         switch (choice)
         {
         case 1: // 插入元素
-            {
-                char prompt[100];
-                sprintf(prompt, "请输入要插入的位置 (0-%d): ", myArray.size);
-                position = getInput(prompt, 0, myArray.size);
-                value = getInput("请输入要插入的值 (-1000到1000): ", -1000, 1000);
-                insert(&myArray, position, value);
-                printf("插入操作完成!\n");
-            }
-            break;
+        {
+            char prompt[100];
+            sprintf(prompt, "请输入要插入的位置 (0-%d): ", myArray.size);
+            position = getInput(prompt, 0, myArray.size);
+            value = getInput("请输入要插入的值 (-1000到1000): ", -1000, 1000);
+            insert(&myArray, position, value);
+            printf("插入操作完成!\n");
+        }
+        break;
 
         case 2: // 查找元素
             value = getInput("请输入要查找的值 (-1000到1000): ", -1000, 1000);
@@ -189,19 +189,19 @@ int main(void)
             break;
 
         case 3: // 删除元素
+        {
+            if (myArray.size == 0)
             {
-                if (myArray.size == 0)
-                {
-                    printf("错误：数组为空，无法删除元素！\n");
-                    break;
-                }
-                char prompt[100];
-                sprintf(prompt, "请输入要删除的位置 (0-%d): ", myArray.size - 1);
-                position = getInput(prompt, 0, myArray.size - 1);
-                delete(&myArray, position);
-                printf("删除操作完成!\n");
+                printf("错误：数组为空，无法删除元素！\n");
+                break;
             }
-            break;
+            char prompt[100];
+            sprintf(prompt, "请输入要删除的位置 (0-%d): ", myArray.size - 1);
+            position = getInput(prompt, 0, myArray.size - 1);
+            delete(&myArray, position);
+            printf("删除操作完成!\n");
+        }
+        break;
 
         case 4: // 打印数组
             printf("当前数组: ");

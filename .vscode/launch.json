@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "d:/Code/C_code/.trae/rules",
-      "program": "d:/Code/C_code/.trae/rules/build/Debug/outDebug",
+      "cwd": "d:/Code/C_code/数据结构",
+      "program": "d:/Code/C_code/数据结构/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

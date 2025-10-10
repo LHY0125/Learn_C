@@ -8,8 +8,8 @@
 
 /**
  * @brief 将指令复制到powershell
- * gcc "数据结构\结构体实现插入元素.c" -o output/结构体实现插入元素.exe
-  .\output\结构体实现插入元素.exe
+ * gcc "数据结构\结构体实现插入元素.c" -o 数据结构\output\结构体实现插入元素.exe
+  .\数据结构\output\结构体实现插入元素.exe
  */
 
 // 定义结构体
@@ -19,13 +19,13 @@ typedef struct MyArray
     int size;     // 数组当前元素数量
 } MyArray;
 
-// 插入函数，作为结构体外部的成员函数
+// 插入函数，将插入的位置后的元素向后移动一位
 void insert(MyArray *myArray, int position, int value)
 {
     if (position < 0 || position > myArray->size || myArray->size >= 100)
     {
-        // 处理错误情况，例如位置无效或数组已满
-        printf("Error: Invalid position or array is full.\n");
+        // 处理错误情况，如位置无效或数组已满
+        printf("错误：位置无效或数组已满。\n");
         return;
     }
 
@@ -48,7 +48,7 @@ void delete(MyArray *myArray, int position)
     if (position < 0 || position >= myArray->size)
     {
         // 处理错误情况，例如位置无效
-        printf("Error: Invalid position.\n");
+        printf("错误：位置无效。\n");
         return;
     }
 
@@ -68,7 +68,7 @@ void modify(MyArray *myArray, int position, int newValue)
     if (position < 0 || position >= myArray->size)
     {
         // 处理错误情况，例如位置无效
-        printf("Error: Invalid position.\n");
+        printf("错误：位置无效。\n");
         return;
     }
 
@@ -124,92 +124,108 @@ void sort(MyArray *myArray)
     printf("数组排序完成（升序）\n");
 }
 
-// 安全输入函数，获取用户输入的整数值并进行范围检查
-int getInput(const char *prompt, int min, int max)
+// 安全输入函数，获取用户输入的整数值并进行范围检查（直接采用我写的学生管理系统的输入函数）
+int get_Input(const char *prompt, int min, int max)
 {
     int value;
-    char buffer[100];
 
     while (1)
     {
         printf("%s", prompt);
-
-        if (fgets(buffer, sizeof(buffer), stdin) != NULL)
+        
+        if (scanf("%d", &value) == 1)
         {
-            // 尝试解析整数
-            char *endptr;
-            value = strtol(buffer, &endptr, 10);
-
-            // 检查是否为有效整数
-            if (endptr != buffer && (*endptr == '\n' || *endptr == '\0'))
+            // 检查范围
+            if (value >= min && value <= max)
             {
-                // 检查范围
-                if (value >= min && value <= max)
-                {
-                    return value;
-                }
-                else
-                {
-                    printf("错误：输入值必须在 %d 到 %d 之间！\n", min, max);
-                }
+                return value;
             }
             else
             {
-                printf("错误：请输入有效的整数！\n");
+                printf("错误：输入值必须在 %d 到 %d 之间！\n", min, max);
             }
         }
         else
         {
-            printf("错误：读取输入失败！\n");
+            printf("错误：请输入有效的整数！\n");
+            // 清空输入缓冲区
+            while (getchar() != '\n');
         }
     }
 }
 
-// 菜单选择输入函数
-int getMenuChoice()
-{
-    return getInput("请选择操作 (1-7): ", 1, 7);
-}
-
-// 获取插入位置的输入函数
-int getInsertPosition(const MyArray *myArray)
+// 通用输入函数，根据操作类型获取相应的输入
+int get_Operation_Input(const MyArray *myArray, const char *operation)
 {
     char prompt[100];
-    sprintf(prompt, "请输入要插入的位置 (0-%d): ", myArray->size);
-    return getInput(prompt, 0, myArray->size);
-}
 
-// 获取有效位置的通用输入函数（用于删除和修改操作）
-int getValidPosition(const MyArray *myArray, const char *operation)
-{
-    if (myArray->size == 0)
+    // 处理插入操作
+    if (strcmp(operation, "插入") == 0)
     {
-        printf("错误：数组为空，无法%s元素！\n", operation);
-        return -1;
+        sprintf(prompt, "请输入要插入的位置 (0-%d): ", myArray->size);
+        
+        return get_Input(prompt, 0, myArray->size);
     }
-    char prompt[100];
-    sprintf(prompt, "请输入要%s的位置 (0-%d): ", operation, myArray->size - 1);
-    return getInput(prompt, 0, myArray->size - 1);
+
+    // 处理删除和修改操作
+    if (strcmp(operation, "删除") == 0 || strcmp(operation, "修改") == 0)
+    {
+        if (myArray->size == 0)
+        {
+            printf("错误：数组为空，无法%s元素！\n", operation);
+            return -1;
+        }
+        sprintf(prompt, "请输入要%s的位置 (0-%d): ", operation, myArray->size - 1);
+
+        return get_Input(prompt, 0, myArray->size - 1);
+    }
+
+    // 处理元素值输入
+    if (strcmp(operation, "插入值") == 0 || strcmp(operation, "修改值") == 0 || strcmp(operation, "查找值") == 0)
+    {
+        const char *action;
+        if (strcmp(operation, "插入值") == 0)
+        {
+            action = "插入";
+        }
+        else if (strcmp(operation, "修改值") == 0)
+        {
+            action = "修改为";
+        }
+        else
+        {
+            action = "查找";
+        }
+        sprintf(prompt, "请输入要%s的值 (-1000到1000): ", action);
+
+        return get_Input(prompt, -1000, 1000);
+    }
+
+    // 默认返回-1表示无效操作
+    printf("错误：无效的操作类型！\n");
+    return -1;
 }
 
-// 获取删除位置的输入函数
-int getDeletePosition(const MyArray *myArray)
+// 初始化数组函数
+void initialize_Array(MyArray *myArray)
 {
-    return getValidPosition(myArray, "删除");
-}
-
-// 获取修改位置的输入函数
-int getModifyPosition(const MyArray *myArray)
-{
-    return getValidPosition(myArray, "修改");
-}
-
-// 获取元素值的输入函数
-int getElementValue(const char *operation)
-{
-    char prompt[100];
-    sprintf(prompt, "请输入要%s的值 (-1000到1000): ", operation);
-    return getInput(prompt, -1000, 1000);
+    printf("请输入数组的初始大小 (1-100): ");
+    int initialSize;
+    scanf("%d", &initialSize);
+    
+    if (initialSize < 1 || initialSize > 100)
+    {
+        printf("无效的大小，使用默认大小5\n");
+        initialSize = 5;
+    }
+    
+    printf("请输入 %d 个初始元素:\n", initialSize);
+    for (int i = 0; i < initialSize; i++)
+    {
+        printf("第 %d 个元素: ", i + 1);
+        scanf("%d", &myArray->arr[i]);
+    }
+    myArray->size = initialSize; // 设置数组当前大小
 }
 
 // 打印函数，作为结构体外部的成员函数
@@ -235,12 +251,8 @@ int main(void)
     MyArray myArray; // 创建MyArray实例
     int choice, position, value, foundPos;
 
-    // 初始化数组和size
-    for (int i = 0; i < 5; i++)
-    {
-        myArray.arr[i] = i + 1;
-    }
-    myArray.size = 5; // 设置数组当前大小
+    // 初始化size和数组
+    initialize_Array(&myArray);
 
     printf("初始数组: ");
     print(&myArray);
@@ -258,7 +270,7 @@ int main(void)
         printf("7. 退出程序\n");
         printf("请选择操作 (1-7): ");
 
-        choice = getMenuChoice();
+        choice = get_Input("请选择操作 (1-7): ", 1, 7);
 
         switch (choice)
         {
@@ -266,8 +278,8 @@ int main(void)
         {
             printf("当前数组: ");
             print(&myArray);
-            position = getInsertPosition(&myArray);
-            value = getElementValue("插入");
+            position = get_Operation_Input(&myArray, "插入");
+            value = get_Operation_Input(&myArray, "插入值");
             insert(&myArray, position, value);
             printf("插入操作完成!\n");
         }
@@ -277,7 +289,7 @@ int main(void)
         {
             printf("当前数组: ");
             print(&myArray);
-            position = getDeletePosition(&myArray);
+            position = get_Operation_Input(&myArray, "删除");
             if (position != -1)
             {
                 delete(&myArray, position);
@@ -290,11 +302,11 @@ int main(void)
         {
             printf("当前数组: ");
             print(&myArray);
-            position = getModifyPosition(&myArray);
+            position = get_Operation_Input(&myArray, "修改");
             if (position != -1)
             {
                 printf("当前位置 %d 的值为: %d\n", position, myArray.arr[position]);
-                value = getElementValue("修改为");
+                value = get_Operation_Input(&myArray, "修改值");
                 modify(&myArray, position, value);
             }
         }
@@ -303,7 +315,7 @@ int main(void)
         case 4: // 查找元素
             printf("当前数组: ");
             print(&myArray);
-            value = getElementValue("查找");
+            value = get_Operation_Input(&myArray, "查找值");
             foundPos = search(&myArray, value);
             if (foundPos != -1)
             {

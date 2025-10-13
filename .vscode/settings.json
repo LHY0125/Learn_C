@@ -56,18 +56,5 @@
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
-  "files.associations": {
-    "*.gbk": "cpp",
-    "stdlib.h": "c",
-    "game_mode.h": "c",
-    "windows.h": "c",
-    "stdio.h": "c",
-    "stat.h": "c",
-    "init_board.h": "c",
-    "init.h": "c",
-    "record.h": "c",
-    "ai.h": "c",
-    "string.h": "c",
-    "direct.h": "c"
-  }
+  "files.associations": {}
 }

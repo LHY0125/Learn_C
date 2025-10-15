@@ -10,7 +10,8 @@
 6.freeList函数：释放链表占用的内存。
 这样修改后，初始化函数只创建一个空节点，然后在主函数中逐个插入元素，最终实现链表的建立。
 */
-/*在函数 insertAtHead(struct ListNode** head, int value) 中，参数 head 是一个指向 struct ListNode* 类型的指针的指针。这意味着函数可以直接修改指针 head 所指向的值。head 指向链表的头节点指针，通过传递 head 的地址，可以在函数内部更新头节点指针，使其指向新插入的节点。
+/*在函数 insertAtHead(struct ListNode** head, int value) 中，参数 head 是一个指向 struct ListNode* 类型的指针的指针。
+这意味着函数可以直接修改指针 head 所指向的值。head 指向链表的头节点指针，通过传递 head 的地址，可以在函数内部更新头节点指针，使其指向新插入的节点。
 这样做的好处是，可以在函数内部创建一个新的节点，并将其设置为链表的新头节点，然后更新外部传入的头节点指针，以确保它指向新的头节点。这是在不返回任何值的情况下修改链表头节点的一种常用方法。
 例如，当调用 insertAtHead(&head, values[i]); 时，实际上是传递了 head 指针的地址给 insertAtHead 函数。在函数内部，可以创建一个新节点，并更新 *head（即 head 指针所指向的值）为这个新节点，从而在链表的头部插入新节点。
 */

@@ -7,8 +7,8 @@
 
 /**
  * @brief 将指令复制到PowerShell
- * gcc "数据结构\链表插入.c" -o 数据结构\output\链表插入.exe
-  .\数据结构\output\链表插入.exe
+ * gcc "数据结构\单链表的增删改查.c" -o 数据结构\output\单链表的增删改查.exe
+  .\数据结构\output\单链表的增删改查.exe
  */
 
 /*代码说明：
@@ -62,6 +62,27 @@ void insertAtHead(struct ListNode **head, int value)
     newNode->next = *head;
     // 更新头节点为新节点
     *head = newNode;
+}
+
+// 在链表尾部插入新节点的函数（尾插法）
+void insertAtEnd(struct ListNode **head, int value)
+{
+    // 创建新节点并将其插入到链表尾部
+    struct ListNode *newNode = createNode(value);
+    // 如果链表为空，新节点直接成为头节点
+    if (*head == NULL)
+    {
+        *head = newNode;
+        return;
+    }
+    // 否则，遍历到链表尾部
+    struct ListNode *current = *head;
+    while (current->next != NULL)
+    {
+        current = current->next;
+    }
+    // 将新节点连接到链表尾部
+    current->next = newNode;
 }
 
 // 删除第一个值为value的节点，返回是否删除成功
@@ -119,27 +140,6 @@ int deleteAtPosition(struct ListNode **head, int pos)
         previous->next = current->next;
     free(current);
     return 1;
-}
-
-// 在链表尾部插入新节点的函数（尾插法）
-void insertAtEnd(struct ListNode **head, int value)
-{
-    // 创建新节点并将其插入到链表尾部
-    struct ListNode *newNode = createNode(value);
-    // 如果链表为空，新节点直接成为头节点
-    if (*head == NULL)
-    {
-        *head = newNode;
-        return;
-    }
-    // 否则，遍历到链表尾部
-    struct ListNode *current = *head;
-    while (current->next != NULL)
-    {
-        current = current->next;
-    }
-    // 将新节点连接到链表尾部
-    current->next = newNode;
 }
 
 // 打印链表
@@ -326,7 +326,8 @@ int main()
             break;
         case 7:
             printf("程序结束\n");
-            break;
+            freeList(head);  // 退出前释放链表内存
+            return 0;
         default:
             printf("无效选项，请输入 1-7\n");
         }

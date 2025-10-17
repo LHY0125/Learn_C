@@ -32,12 +32,12 @@
 ## 编译运行
 1. 编译程序：
    ```bash
-   gcc "C语言代码/课上代码练习/五子棋/五子棋 copy 3.c" -o gomoku -lm
+   gcc "五子棋 copy 3.c" -o gobang -lm
    ```
 
 2. 运行游戏：
    ```bash
-   ./gomoku
+   ./gobang
    ```
 
 ## 使用说明

@@ -6,7 +6,7 @@
 #endif
 
 /**
- * @brief 将指令复制到PowerShell
+ * @brief 编译和运行指令
  * gcc "数据结构\单链表的增删改查.c" -o 数据结构\output\单链表的增删改查.exe
   .\数据结构\output\单链表的增删改查.exe
  */

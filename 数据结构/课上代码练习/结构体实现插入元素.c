@@ -7,7 +7,7 @@
 #endif
 
 /**
- * @brief 将指令复制到PowerShell
+ * @brief 编译和运行指令
  * gcc "数据结构\结构体实现插入元素.c" -o 数据结构\output\结构体实现插入元素.exe
   .\数据结构\output\结构体实现插入元素.exe
  */

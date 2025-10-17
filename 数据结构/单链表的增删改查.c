@@ -20,6 +20,7 @@
 6.freeList函数：释放链表占用的内存。
 这样修改后，初始化函数只创建一个空节点，然后在主函数中逐个插入元素，最终实现链表的建立。
 */
+
 /*在函数 insertAtHead(struct ListNode** head, int value) 中，参数 head 是一个指向 struct ListNode* 类型的指针的指针。
 这意味着函数可以直接修改指针 head 所指向的值。
 head 指向链表的头节点指针，通过传递 head 的地址，可以在函数内部更新头节点指针，使其指向新插入的节点。
@@ -187,7 +188,7 @@ void deleteInput()
 
 int main()
 {
-    // 设置控制台编码为UTF-8
+    // 设置控制台编码为UTF-8,防止中文乱码
 #ifdef _WIN32
     system("chcp 65001 > nul"); // 设置控制台编码为UTF-8
     SetConsoleOutputCP(65001);  // 设置控制台输出编码
@@ -326,7 +327,8 @@ int main()
             break;
         case 7:
             printf("程序结束\n");
-            freeList(head);  // 退出前释放链表内存
+            // 退出前释放链表内存
+            freeList(head);
             return 0;
         default:
             printf("无效选项，请输入 1-7\n");

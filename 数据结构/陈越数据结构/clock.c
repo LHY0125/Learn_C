@@ -18,7 +18,8 @@ double duration;
 void MyFunction()
 {
     long long sum = 0;
-    for (int i = 1; i <= 1000000; i++) {
+    for (int i = 1; i <= 1000000; i++)
+    {
         sum += i;
     }
     printf("计算结果：1到1000000的和为 %lld\n", sum);

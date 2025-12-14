@@ -8,7 +8,6 @@
 #include <direct.h>
 #endif
 
-// clock_t 是一个无符号整数类型，用于表示时钟 ticks 的数量。
 clock_t start, stop;
 
 // 记录程序运行时间

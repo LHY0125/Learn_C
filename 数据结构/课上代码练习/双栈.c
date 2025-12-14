@@ -6,8 +6,7 @@
 #include <direct.h>
 #endif
 
-typedef int Status;    // 函数返回状态
-typedef int SElemType; // 栈元素类型
+typedef int SElemType; // 栈元素类型,方便自定义栈的数据类型
 
 typedef struct 
 {
@@ -17,7 +16,7 @@ typedef struct
 } DblStack;
 
 // 双栈的初始化
-Status Init(DblStack *s, int m)
+int Init(DblStack *s, int m)
 {
     // 容量无效
     if (m <= 0)
@@ -56,7 +55,7 @@ void Destroy(DblStack *s)
 }
 
 // 判断栈是否为空
-Status IsEmpty(DblStack s, int Num)
+int IsEmpty(DblStack s, int Num)
 {
     // 栈号无效
     if (Num != 0 && Num != 1)
@@ -91,7 +90,7 @@ Status IsEmpty(DblStack s, int Num)
 }
 
 // 判断双栈是否已满
-Status IsFull(DblStack s)
+int IsFull(DblStack s)
 {
     // 两栈顶相遇
     if (s.top[0] + 1 == s.top[1])
@@ -105,7 +104,7 @@ Status IsFull(DblStack s)
 }
 
 // 进栈操作
-Status Push(DblStack *s, int Num, SElemType e)
+int Push(DblStack *s, int Num, SElemType e)
 {
     // 栈号无效
     if (Num != 0 && Num != 1)
@@ -134,7 +133,7 @@ Status Push(DblStack *s, int Num, SElemType e)
 }
 
 // 出栈操作
-Status Pop(DblStack *s, int Num, SElemType *e)
+int Pop(DblStack *s, int Num, SElemType *e)
 {
     // 栈号无效
     if (Num != 0 && Num != 1)
@@ -163,7 +162,7 @@ Status Pop(DblStack *s, int Num, SElemType *e)
 }
 
 // 获取栈顶元素
-Status GetTop(DblStack s, int Num, SElemType *e)
+int GetTop(DblStack s, int Num, SElemType *e)
 {
     // 栈号无效
     if (Num != 0 && Num != 1)

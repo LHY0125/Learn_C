@@ -14,24 +14,24 @@ typedef struct
 typedef AMGraphStruct *AMGraph;
 
 // 定义最大顶点数和最大边权值
-#define MaxInt 0x3f3f3f3f
-#define MAXN 1005      // 最大顶点数
-static bool S[MAXN];   // S[i]为true表示顶点i已加入集合S，否则未加入
-static int D[MAXN];    // D[i]为v0到顶点i的当前最短路径长度
-static int Path[MAXN]; // Path[i]为v0到顶点i的最短路径上的前驱顶点
+#define MaxInt 99999    // 最大边权值，用于初始化距离数组
+#define MAXN 1005       // 最大顶点数
+static bool S[MAXN];    // S[i]为true表示顶点i已加入集合S，否则未加入
+static int D[MAXN];     // D[i]为v0到顶点i的当前最短路径长度
+static int Path[MAXN];  // Path[i]为v0到顶点i的最短路径上的前驱顶点
 
 // Dijkstra算法求最短路径
 void ShortestPath_DIJ(AMGraph G, int v0)
 {
     // 初始化
-    int n, i, v, w; // n为顶点数，i为循环变量，v为当前顶点，w为邻接顶点
+    int n, i, v, w;     // n为顶点数，i为循环变量，v为当前顶点，w为邻接顶点
     int min;
     n = G->vexnum;
-    for (v = 0; v < n; ++v)
+    for (v = 0; v < n;++v)
     {
         S[v] = false;
         D[v] = G->arcs[v0][v];
-        if (D[v] < MaxInt)
+        if (D[v]<MaxInt)
         {
             Path[v] = v0;
         }
@@ -50,17 +50,11 @@ void ShortestPath_DIJ(AMGraph G, int v0)
         min = MaxInt;
         for (w = 0; w < n; ++w)
         {
-            if (!S[w] && D[w] < min)
+            if (!S[w] && D[w]<min)
             {
                 v = w;
                 min = D[w];
             }
-        }
-
-        // 如果min为MaxInt，说明v0到其他顶点的路径都不可达
-        if (min == MaxInt)
-        {
-            break;
         }
         S[v] = true;
 
@@ -68,7 +62,7 @@ void ShortestPath_DIJ(AMGraph G, int v0)
         for (w = 0; w < n; ++w)
         {
             if (!S[w] && (D[v] + G->arcs[v][w] < D[w]))
-            {
+        {
                 D[w] = D[v] + G->arcs[v][w];
                 Path[w] = v;
             }
@@ -90,12 +84,7 @@ int main(void)
     {
         return 0;
     }
-    if (n < 1 || n > MAXN || m < 0)
-    {
-        printf("参数不符合要求\n");
-        return 0;
-    }
-    
+
     // 初始化邻接矩阵
     AMGraph g = (AMGraph)malloc(sizeof(*g));
     g->vexnum = n;
@@ -104,9 +93,7 @@ int main(void)
     {
         g->arcs[i] = (int *)malloc((size_t)n * sizeof(int));
         for (int j = 0; j < n; ++j)
-        {
             g->arcs[i][j] = (i == j) ? 0 : MaxInt;
-        }
     }
 
     // 输入边信息
@@ -114,28 +101,15 @@ int main(void)
     {
         int x, y, z;
         if (scanf("%d %d %d", &x, &y, &z) != 3)
-        {
-            for (int k = 0; k < n; ++k) free(g->arcs[k]);
-            free(g->arcs);
-            free(g);
-            printf("参数不符合要求\n");
             return 0;
-        }
-        if (x < 1 || x > n || y < 1 || y > n || z <= 0 || z > 10000)
+        if (x >= 1 && x <= n && y >= 1 && y <= n)
         {
-            for (int k = 0; k < n; ++k) free(g->arcs[k]);
-            free(g->arcs);
-            free(g);
-            printf("参数不符合要求\n");
-            return 0;
-        }
-        if (z < g->arcs[x - 1][y - 1])
-        {
-            g->arcs[x - 1][y - 1] = z;
+            if (z < g->arcs[x - 1][y - 1])
+                g->arcs[x - 1][y - 1] = z;
         }
     }
 
-    // 执行Dijkstra算法
+    // 调用Dijkstra算法
     ShortestPath_DIJ(g, 0);
     if (D[n - 1] >= MaxInt)
     {
